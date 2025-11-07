@@ -5,19 +5,17 @@ terraform {
       version = "~> 6.0"
     }
   }
-}
 
+  backend "s3" {
+    bucket = "ecs-backend-az"
+    key    = "ecs-backend-az/terraform.tfstate"
+    region = "eu-west-2"
+    encrypt = true
+    use_lockfile = true
+
+  }
+}
 
 provider "aws" {
   region = "eu-west-2"
-}
-
-resource "aws_s3_bucket" "my_bucket" {
-  bucket = "my-ecs-bucket"
-  object_lock_enabled = true
-
-  tags = {
-    Name        = "My bucket"
-    Environment = "Dev"
-  }
 }
