@@ -1,4 +1,43 @@
+#ecs variables.tf
 variable "ecr_uri" {
   description = "URI of the ECR repository with image tag (e.g., 123456789.dkr.ecr.us-east-1.amazonaws.com/my-app:latest)"
   type        = string
+   }
+
+variable "iam_role_arn" {
+  description = "ARN of the IAM execution role for ECS tasks"
+  type        = string
+}
+
+
+#alb variables.tf
+
+variable "vpc_name" {
+  description = "Name of the VPC."
+  type        = string
+}
+
+variable "acm_certificate_arn" {
+  description = "ARN of the SSL certificate for the ALB."
+  type        = string
+}
+
+#acm/dns
+
+variable "domain_name" {
+  description = "Domain or subdomain for the certificate (e.g., app.example.com)"
+  type        = string
+}
+
+variable "hosted_zone_id" {
+  description = "Route53 hosted zone ID for your domain"
+  type        = string
+}
+
+variable "project_name" {
+  type = string
+}
+
+variable "environment" {
+  type = string
 }
