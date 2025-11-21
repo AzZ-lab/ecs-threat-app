@@ -34,10 +34,18 @@ variable "hosted_zone_id" {
   type        = string
 }
 
+variable "certificate_arn" {
+  description = "ARN of the issued ACM certificate"
+  type        = string
+}
+
+#vpc variables.tf
 variable "project_name" {
+  description = "project name"
   type = string
 }
 
 variable "environment" {
-  type = string
+  description = "environment name"
+  type        = string
 }

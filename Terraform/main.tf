@@ -2,9 +2,26 @@ module "aws_vpc" {
   source = "./modules/vpc"
 
   vpc_cidr            = "10.0.0.0/16"
-  project_name        = "myproject"
-  environment         = "dev"
+  project_name        = var.project_name
+  environment         = var.environment
   public_subnet_count = 2
+}
+
+
+module "acm" {
+  source         = "./modules/acm"
+  domain_name    = var.domain_name
+  hosted_zone_id = var.hosted_zone_id
+  certificate_arn = var.certificate_arn
+}
+
+module "alb" {
+  source = "./modules/alb"
+
+  vpc_name            = var.vpc_name
+  vpc_id              = module.aws_vpc.vpc_id
+  subnet_ids          = module.aws_vpc.public_subnet_ids
+  acm_certificate_arn = module.acm.certificate_arn
 }
 
 module "ecs" {
@@ -17,26 +34,4 @@ module "ecs" {
   alb_target_group_arn  = module.alb.alb_target_group_arn
   alb_listener_arn      = module.alb.alb_listener_arn
   iam_role_arn          = var.iam_role_arn
-}
-
-
-module "alb" {
-  source = "./modules/alb"
-
-  vpc_name            = var.project_name
-  vpc_id              = module.aws_vpc.vpc_id
-  subnet_ids          = module.aws_vpc.public_subnet_ids
-
-  acm_certificate_arn = module.acm.certificate_arn
-}
-
-
-
-module "acm" {
-  source         = "./modules/acm"
-  domain_name    = var.domain_name
-  hosted_zone_id = data.aws_route53_zone.primary.zone_id
-
-  project_name   = var.project_name
-  environment    = var.environment
 }
