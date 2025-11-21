@@ -5,9 +5,7 @@ resource "aws_lb" "alb" {
   security_groups    = [aws_security_group.alb_sg.id]
   subnets            = var.subnet_ids
 
-  tags = {
-    Name = "${var.vpc_name}-alb"
-  }
+  tags = { Name = "${var.vpc_name}-alb" }
 }
 
 resource "aws_security_group" "alb_sg" {
@@ -35,7 +33,6 @@ resource "aws_security_group" "alb_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
 }
 
 resource "aws_lb_target_group" "alb_tg" {
@@ -54,8 +51,7 @@ resource "aws_lb_target_group" "alb_tg" {
     matcher             = "200-299"
   }
 
-  tags = {
-  Name = "${var.vpc_name}-tg" }
+  tags = { Name = "${var.vpc_name}-tg" }
 }
 
 resource "aws_lb_listener" "ecs_listener" {
@@ -69,7 +65,6 @@ resource "aws_lb_listener" "ecs_listener" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.alb_tg.arn
   }
-  depends_on = [aws_lb_target_group.alb_tg]
 }
 
 resource "aws_lb_listener" "http_listen" {
@@ -78,13 +73,12 @@ resource "aws_lb_listener" "http_listen" {
   protocol          = "HTTP"
 
   default_action {
-    type             = "redirect"
-    target_group_arn = aws_lb_target_group.alb_tg.arn
+    type = "redirect"
 
     redirect {
       port        = 443
-      status_code = "HTTP_301"
       protocol    = "HTTPS"
+      status_code = "HTTP_301"
     }
   }
 }

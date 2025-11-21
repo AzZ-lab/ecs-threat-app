@@ -45,3 +45,8 @@ variable "environment" {
   description = "environment name"
   type        = string
 }
+
+variable "vpc_cidr" {
+  description = "CIDR block for VPC"
+  type        = string
+}

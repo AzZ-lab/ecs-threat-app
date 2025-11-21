@@ -1,38 +1,23 @@
 resource "aws_acm_certificate" "this" {
   domain_name       = var.domain_name
   validation_method = "DNS"
-
-  tags = {
-    Name = "${var.domain_name}-cert"
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
 }
 
-locals {
-  validation_option = tolist(aws_acm_certificate.this.domain_validation_options)[0]
-}
-
+# Create Route53 CNAME records for validation
 resource "aws_route53_record" "cert_validation" {
-  zone_id = var.hosted_zone_id
-  name    = local.validation_option.resource_record_name
-  type    = local.validation_option.resource_record_type
-  records = [local.validation_option.resource_record_value]
-  ttl     = 60
+  for_each = {
+    for dvo in aws_acm_certificate.this.domain_validation_options : dvo.domain_name => dvo
+  }
 
-  allow_overwrite = true
+  zone_id = var.hosted_zone_id
+  name    = each.value.resource_record_name
+  type    = each.value.resource_record_type
+  records = [each.value.resource_record_value]
+  ttl     = 60
 }
 
-resource "aws_route53_record" "app" {
-  zone_id = var.hosted_zone_id
-  name    = "tm.${var.domain_name}"  # This will create tm.azaz.click
-  type    = "A"
-
-  alias {
-    name                   = var.alb_dns_name
-    zone_id                = var.alb_zone_id
-    evaluate_target_health = true
-  }
+# Validate the certificate using the DNS records
+resource "aws_acm_certificate_validation" "this" {
+  certificate_arn         = aws_acm_certificate.this.arn
+  validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
 }
