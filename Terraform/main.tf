@@ -13,6 +13,9 @@ module "acm" {
   domain_name    = var.domain_name
   hosted_zone_id = var.hosted_zone_id
   certificate_arn = var.acm_certificate_arn
+
+  alb_dns_name = module.alb.alb_dns_name
+  alb_zone_id  = module.alb.alb_zone_id
 }
 
 module "alb" {
