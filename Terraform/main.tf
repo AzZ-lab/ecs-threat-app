@@ -12,7 +12,7 @@ module "acm" {
   source         = "./modules/acm"
   domain_name    = var.domain_name
   hosted_zone_id = var.hosted_zone_id
-  certificate_arn = var.certificate_arn
+  certificate_arn = var.acm_certificate_arn
 }
 
 module "alb" {
