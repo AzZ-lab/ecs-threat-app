@@ -13,7 +13,7 @@ Key highlights:
 
 
 
-## 🏗 Architecture Diagram
+## Architecture Diagram
 
 ![Architecture Diagram](images/architecture.png)
 
@@ -22,7 +22,7 @@ This architecture shows the full end-to-end deployment of the containerised Thre
 All infrastructure components are provisioned using Terraform with remote state stored in S3 and state locking. CI/CD automation is handled through GitHub Actions.
 
 
-## 🎥 Application Demo
+## Application Demo
 
 ![Application Demo](images/demo.gif) 
 
@@ -32,7 +32,7 @@ This GIF demonstrates the live deployment of the Threat Composer application run
 
 
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 app/
@@ -65,7 +65,7 @@ terraform/
     └── deploy.yaml
 ```
 
-## ✅ CI/CD Status
+##  CI/CD Status
 
 Below are the current pipeline statuses demonstrating successful builds and deployments:
 
@@ -74,7 +74,7 @@ Below are the current pipeline statuses demonstrating successful builds and depl
 
 ![Deploy Success](images/deploy-pipeline.png)
 
-## 🔒 Security
+## Security
 The infrastructure follows security best practices:
 * Terraform state is stored in an encrypted S3 bucket
 * State locking is handled using Terraform's `use_lockfile` feature for local development
