@@ -1,7 +1,7 @@
 
 # Containerised Threat Modelling Tool on AWS ECS Fargate
 
-This repository deploys a **containerised Threat Composer** application on **AWS ECS Fargate** using **Terraform** for Infrastructure as Code and **GitHub Actions** for CI/CD automation. The goal is to reproduce a real-world production CI/CD workflow where infrastructure and application are fully automated — from Docker build and image push to infrastructure provisioning and secure HTTPS routing.
+This repository deploys a **containerised Threat Composer** application on **AWS ECS Fargate** using **Terraform** for Infrastructure as Code and **GitHub Actions** for CI/CD automation. The goal is to reproduce a real-world production CI/CD workflow where infrastructure and application are fully automated from Docker build and image push to infrastructure provisioning and secure HTTPS routing.
 
 ---
 
